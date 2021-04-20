@@ -37,7 +37,6 @@ import java.util.List;
 public class PlantCClassifierActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
-    ArrayList<String> list = new ArrayList<String>();
     public final int PICK_IMAGE = 1;
     ImageView imageView = null;
     ListView isImage = null;
@@ -167,7 +166,7 @@ public class PlantCClassifierActivity extends AppCompatActivity implements View.
 
         String class_label = "";
         Bitmap bitmap = null;
-
+        ArrayList<String> list = new ArrayList<String>();
 
         @Override
         protected void onPreExecute() {
