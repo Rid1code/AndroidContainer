@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".PlantCClassifierActivity"></activity>
         <activity android:name=".AgeClassifierActivity"></activity>
-
+        
     </application>
 
 </manifest>

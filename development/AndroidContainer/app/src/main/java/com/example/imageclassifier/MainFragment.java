@@ -32,6 +32,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AgeClassifierActivity.class);
+//                intent.putExtra("mode", "age");
                 getActivity().startActivity(intent);
             }
         });
@@ -40,6 +41,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), PlantCClassifierActivity.class);
+//                intent.putExtra("mode", "condition");
                 getActivity().startActivity(intent);
             }
         });

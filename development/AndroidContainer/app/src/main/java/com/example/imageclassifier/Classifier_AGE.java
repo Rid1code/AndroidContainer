@@ -11,9 +11,12 @@ import org.json.JSONObject;
 import org.tensorflow.lite.Interpreter;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
@@ -114,10 +117,18 @@ public class Classifier_AGE {
     /**
      * Initializes an {@code ImageClassifier}.
      */
+
     private Classifier_AGE(Context activity) throws IOException {
+//        check if model is in storage
+        File file = new File(activity.getExternalFilesDir(null), MODEL_PATH);
+        if (file.exists()){
+            tflite = new Interpreter(loadModelFileFromStorage(activity));
+        }
+        else{
+            tflite = new Interpreter(loadModelFile(activity));
+        }
 
 
-        tflite = new Interpreter(loadModelFile(activity));
         labelList = loadLabelList(activity);
         imgData =
                 ByteBuffer.allocateDirect(
@@ -254,6 +265,15 @@ public class Classifier_AGE {
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();
         long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+    }
+    private MappedByteBuffer loadModelFileFromStorage(Context activity) throws IOException {
+        File appSpecificExternalDir = new File(activity.getExternalFilesDir(null), MODEL_PATH);
+        InputStream in = new FileInputStream(appSpecificExternalDir);
+        RandomAccessFile filenew=new RandomAccessFile (appSpecificExternalDir,"r");
+        FileChannel fileChannel= filenew.getChannel();
+        long startOffset = filenew.getFilePointer();
+        long declaredLength = filenew.length();
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 
